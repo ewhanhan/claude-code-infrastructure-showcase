@@ -1,0 +1,40 @@
+# EditorConfig for zsh-sweep
+# https://editorconfig.org
+#
+# Shell formatting: Google Shell Style Guide (shfmt -i 2 -ci -bn)
+# https://google.github.io/styleguide/shellguide.html
+#
+# Note: shfmt only supports bash/posix/mksh. Zsh scripts in this repo
+# use zsh-specific syntax (parameter flags, etc.) that shfmt cannot parse.
+# The [[bash]] section below applies to bash scripts like 'uninstall'.
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# Bash/POSIX scripts (.sh, .bash)
+# Formatted by shfmt with Google Shell Style
+[*.{sh,bash}]
+indent_style = space
+indent_size = 2
+shell_variant = bash
+switch_case_indent = true
+binary_next_line = true
+
+# Zsh scripts - indentation only (shfmt cannot format these)
+[*.zsh]
+indent_style = space
+indent_size = 2
+
+# Match bash scripts by shebang (shfmt-specific extension)
+# Covers extensionless scripts like 'uninstall'
+[[bash]]
+indent_style = space
+indent_size = 2
+switch_case_indent = true
+binary_next_line = true
+
