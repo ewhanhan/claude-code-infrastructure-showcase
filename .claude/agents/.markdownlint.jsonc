@@ -1,0 +1,20 @@
+{
+  // Agent files are prompt templates, not documentation
+  // Local config REPLACES main config, so we must re-disable rules here
+
+  // MD041: First line should be top-level heading
+  // DISABLED: Agent prompts start with role description, not heading
+  "MD041": false,
+
+  // MD013: Line length
+  // DISABLED: LLMs tokenize by subword units, not line length
+  "MD013": false,
+
+  // MD055: Table pipe style
+  // DISABLED: dprint handles table formatting
+  "MD055": false,
+
+  // MD060: Table column alignment
+  // DISABLED: dprint handles table formatting
+  "MD060": false
+}

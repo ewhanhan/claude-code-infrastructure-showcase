@@ -1,0 +1,420 @@
+{
+  // =============================================================================
+  // MARKDOWNLINT-CLI2 CONFIGURATION FOR LLM/OPUS 4.5 READABILITY
+  // =============================================================================
+  //
+  // This configuration optimizes markdown files for consumption by large language
+  // models, specifically Claude/Opus 4.5. Rules are justified with citations from
+  // Anthropic documentation and LLM best practices research.
+  //
+  // Sources:
+  // - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-4-best-practices
+  // - https://www.anthropic.com/engineering/claude-code-best-practices
+  // - https://algorithmunmasked.com/2025/05/14/mastering-claude-prompts-xml-vs-markdown-formatting-for-optimal-results/
+  // - https://www.humanlayer.dev/blog/writing-a-good-claude-md
+  // =============================================================================
+
+  "config": {
+    // -------------------------------------------------------------------------
+    // STRUCTURAL HIERARCHY RULES
+    // -------------------------------------------------------------------------
+    // Justification: LLMs process document structure through heading hierarchy.
+    // Clear hierarchy aids semantic understanding and "context awareness"
+    // (Claude 4.5 Best Practices).
+    // -------------------------------------------------------------------------
+
+    // MD001: Heading levels should increment by one level at a time
+    // ENABLED - Proper hierarchy helps LLMs understand document structure
+    // Quote: "Use headers to categorize information" (Claude Code Best Practices)
+    "MD001": true,
+
+    // MD003: Heading style - enforce ATX style (#) consistently
+    // ENABLED - Consistent patterns improve LLM parsing
+    // Quote: "Reserve markdown primarily for... simple headings (###)"
+    // (Claude 4 Best Practices - formatting guidance)
+    "MD003": {
+      "style": "atx"
+    },
+
+    // MD022: Headings should be surrounded by blank lines
+    // ENABLED - Clear semantic separation between sections
+    // Justification: Blank lines create "explicit structural boundaries helping
+    // Claude maintain component separation" (XML vs Markdown article)
+    "MD022": {
+      "lines_above": 1,
+      "lines_below": 1
+    },
+
+    // MD023: Headings must start at the beginning of the line
+    // ENABLED - Predictable heading detection
+    "MD023": true,
+
+    // MD024: Multiple headings with same content - ALLOW siblings
+    // RELAXED - Allow same heading text in different sections (common in docs)
+    // No direct quote; inference: documentation often reuses terms like "Overview"
+    "MD024": {
+      "siblings_only": true
+    },
+
+    // MD025: Single top-level heading
+    // ENABLED - Clear document entry point aids LLM orientation
+    // Quote: "Tell Claude about the tech, your stack, the project structure" -
+    // single clear entry point (HumanLayer CLAUDE.md guide)
+    "MD025": {
+      "front_matter_title": ""
+    },
+
+    // MD041: First line should be a top-level heading
+    // ENABLED - Immediate document identification
+    // Justification: LLMs benefit from clear document structure from the start
+    "MD041": true,
+
+    // MD043: Required heading structure
+    // DISABLED - Too prescriptive for general use
+    // No justification for enabling; flexibility needed across document types
+    "MD043": false,
+
+    // -------------------------------------------------------------------------
+    // LIST FORMATTING RULES
+    // -------------------------------------------------------------------------
+    // Justification: Consistent list formatting creates predictable patterns.
+    // Quote: "Bullet points for command documentation" (Claude Code Best Practices)
+    // Quote: "DO NOT use ordered lists (1. ...) or unordered lists (*) unless:
+    // a) you're presenting truly discrete items" (Claude 4 Best Practices)
+    // -------------------------------------------------------------------------
+
+    // MD004: Unordered list style - enforce consistent markers
+    // ENABLED with "dash" - Most common, clean, and unambiguous
+    "MD004": {
+      "style": "dash"
+    },
+
+    // MD005: Consistent list item indentation
+    // ENABLED - Predictable nesting patterns for LLM parsing
+    "MD005": true,
+
+    // MD007: Unordered list indentation
+    // ENABLED - Standard 2-space indent for clean hierarchy
+    "MD007": {
+      "indent": 2,
+      "start_indented": false
+    },
+
+    // MD029: Ordered list item prefix
+    // ENABLED with "ordered" - Sequential numbering aids LLM understanding
+    // of step order and list position
+    "MD029": {
+      "style": "ordered"
+    },
+
+    // MD030: Spaces after list markers
+    // ENABLED - Consistent single space
+    "MD030": {
+      "ul_single": 1,
+      "ol_single": 1,
+      "ul_multi": 1,
+      "ol_multi": 1
+    },
+
+    // MD032: Lists should be surrounded by blank lines
+    // ENABLED - Clear separation improves semantic parsing
+    // Quote: "explicit structural boundaries helping Claude maintain
+    // component separation" (XML vs Markdown article)
+    "MD032": true,
+
+    // -------------------------------------------------------------------------
+    // WHITESPACE AND LINE RULES
+    // -------------------------------------------------------------------------
+    // Justification: Clean text without artifacts improves tokenization and
+    // reduces noise in LLM context windows.
+    // Quote: "keeping them concise and human-readable" (Claude Code Best Practices)
+    // -------------------------------------------------------------------------
+
+    // MD009: Trailing spaces
+    // ENABLED - Remove trailing whitespace (noise in tokenization)
+    // Exception: Allow 2 spaces for hard line breaks (standard markdown)
+    "MD009": {
+      "br_spaces": 2,
+      "list_item_empty_lines": false,
+      "strict": false
+    },
+
+    // MD010: Hard tabs
+    // ENABLED - Convert tabs to spaces for consistent rendering
+    "MD010": {
+      "code_blocks": false,
+      "spaces_per_tab": 2
+    },
+
+    // MD012: Multiple consecutive blank lines
+    // ENABLED - Single blank line maximum
+    // Justification: Multiple blanks waste context window tokens
+    // Quote: File length "< 300 lines is best, and shorter is even better"
+    // (HumanLayer) - implies efficiency matters
+    "MD012": {
+      "maximum": 1
+    },
+
+    // MD013: Line length
+    // DISABLED - LLMs tokenize by subword units, not lines
+    // No justification for enabling; LLMs don't process line-by-line
+    // Long lines don't affect LLM comprehension
+    "MD013": false,
+
+    // MD047: Files should end with a single newline
+    // ENABLED - Clean file termination, standard practice
+    "MD047": true,
+
+    // -------------------------------------------------------------------------
+    // CODE BLOCK RULES
+    // -------------------------------------------------------------------------
+    // Justification: Code blocks are critical for LLM context.
+    // Quote: "Reserve markdown primarily for `inline code`, code blocks
+    // (```...```)" (Claude 4 Best Practices)
+    // Quote: "Code blocks for examples and scripts" (Claude Code Best Practices)
+    // -------------------------------------------------------------------------
+
+    // MD014: Dollar signs used before commands without showing output
+    // DISABLED - This is a stylistic preference; $ prompts can be helpful
+    // for distinguishing commands from output in LLM context
+    // No strong justification either way
+    "MD014": false,
+
+    // MD031: Fenced code blocks surrounded by blank lines
+    // ENABLED - Critical for LLM to identify code block boundaries
+    "MD031": {
+      "list_items": true
+    },
+
+    // MD040: Fenced code blocks should have a language specified
+    // ENABLED - Language tags are CRITICAL for LLM understanding
+    // Justification: Language specification enables Claude to understand
+    // code context, syntax, and apply appropriate knowledge
+    // Quote: "Use structured formats for state data" like JSON
+    // (Claude 4 Best Practices - state management)
+    "MD040": {
+      "language_only": false,
+      "allowed_languages": []
+    },
+
+    // MD046: Code block style
+    // ENABLED - Enforce fenced style (```) over indented
+    // Fenced blocks support language tags; indented do not
+    "MD046": {
+      "style": "fenced"
+    },
+
+    // MD048: Code fence style
+    // ENABLED - Consistent backtick fences
+    "MD048": {
+      "style": "backtick"
+    },
+
+    // -------------------------------------------------------------------------
+    // LINK AND URL RULES
+    // -------------------------------------------------------------------------
+    // Justification: Proper link formatting provides context to LLMs.
+    // Bare URLs lack semantic information about what they link to.
+    // -------------------------------------------------------------------------
+
+    // MD011: Reversed link syntax
+    // ENABLED - Catch common markdown errors
+    "MD011": true,
+
+    // MD034: Bare URLs
+    // ENABLED - URLs should be proper markdown links with context
+    // Justification: Link text provides semantic context for LLMs
+    "MD034": true,
+
+    // MD039: Spaces inside link text
+    // ENABLED - Clean link text formatting
+    "MD039": true,
+
+    // MD042: No empty links
+    // ENABLED - Links must have destinations
+    "MD042": true,
+
+    // MD051: Link fragments should be valid
+    // ENABLED - Catch broken anchor references
+    "MD051": true,
+
+    // MD052: Reference links should be defined
+    // ENABLED - Catch undefined references
+    "MD052": true,
+
+    // MD053: Link and image reference definitions should be needed
+    // ENABLED - Remove unused definitions (reduces noise)
+    "MD053": true,
+
+    // MD054: Link and image style
+    // DISABLED - Allow both inline and reference styles
+    // No strong justification for restricting; both are valid
+    "MD054": false,
+
+    // -------------------------------------------------------------------------
+    // EMPHASIS AND TEXT FORMATTING RULES
+    // -------------------------------------------------------------------------
+    // Quote: "Avoid using **bold** and *italics*" in certain contexts
+    // (Claude 4 Best Practices - but this is context-dependent)
+    // For LLM consumption, we keep emphasis available but ensure clean formatting
+    // -------------------------------------------------------------------------
+
+    // MD035: Horizontal rule style
+    // ENABLED - Consistent style
+    "MD035": {
+      "style": "---"
+    },
+
+    // MD036: Emphasis used instead of a heading
+    // ENABLED - Enforce proper semantic structure
+    // Justification: Headings provide structure; bold text does not
+    "MD036": {
+      "punctuation": ".,;:!?。，；：！？"
+    },
+
+    // MD037: Spaces inside emphasis markers
+    // ENABLED - Clean emphasis formatting
+    "MD037": true,
+
+    // MD038: Spaces inside code span elements
+    // ENABLED - Clean inline code formatting
+    "MD038": true,
+
+    // MD049: Emphasis style
+    // ENABLED - Consistent asterisks for emphasis
+    "MD049": {
+      "style": "asterisk"
+    },
+
+    // MD050: Strong style
+    // ENABLED - Consistent double asterisks for strong
+    "MD050": {
+      "style": "asterisk"
+    },
+
+    // -------------------------------------------------------------------------
+    // HTML AND SPECIAL CONTENT RULES
+    // -------------------------------------------------------------------------
+    // Justification: XML/HTML tags are BENEFICIAL for Claude.
+    // Quote: "Claude was trained to recognize and process XML-structured
+    // content effectively" (XML vs Markdown article)
+    // Quote: "XML creates explicit structural boundaries helping Claude
+    // maintain component separation" (XML vs Markdown article)
+    // -------------------------------------------------------------------------
+
+    // MD033: Inline HTML
+    // DISABLED - Allow HTML/XML tags
+    // CRITICAL: Claude benefits from XML tags for structure
+    // Quote: "Use XML format indicators" and "Write in <smoothly_flowing_prose>
+    // tags" (Claude 4 Best Practices - formatting control)
+    "MD033": false,
+
+    // -------------------------------------------------------------------------
+    // IMAGE AND ACCESSIBILITY RULES
+    // -------------------------------------------------------------------------
+    // Justification: Alt text is the ONLY way LLMs can understand image content
+    // when images aren't processed visually.
+    // -------------------------------------------------------------------------
+
+    // MD045: Images should have alternate text
+    // ENABLED - Critical for LLM understanding of images
+    // LLMs read alt text to understand image purpose/content
+    "MD045": true,
+
+    // -------------------------------------------------------------------------
+    // BLOCKQUOTE RULES
+    // -------------------------------------------------------------------------
+
+    // MD027: Multiple spaces after blockquote symbol
+    // ENABLED - Clean blockquote formatting
+    "MD027": true,
+
+    // MD028: Blank line inside blockquote
+    // DISABLED - Allow paragraph breaks in blockquotes
+    // No strong justification; flexibility needed
+    "MD028": false,
+
+    // -------------------------------------------------------------------------
+    // TABLE RULES
+    // -------------------------------------------------------------------------
+    // Justification: Tables should be well-formed for LLM parsing.
+    // -------------------------------------------------------------------------
+
+    // MD055: Table pipe style
+    // DISABLED - dprint handles table formatting
+    // See: https://www.joshuakgoldberg.com/blog/configuring-markdownlint-alongside-prettier/
+    "MD055": false,
+
+    // MD060: Table column style (alignment)
+    // DISABLED - dprint handles table formatting
+    "MD060": false,
+
+    // MD056: Table column count
+    // ENABLED - Validate table structure
+    "MD056": true,
+
+    // MD058: Tables should be surrounded by blank lines
+    // ENABLED - Clear table boundaries
+    "MD058": true,
+
+    // -------------------------------------------------------------------------
+    // MISCELLANEOUS RULES
+    // -------------------------------------------------------------------------
+
+    // MD018: No space after hash on atx style heading
+    // ENABLED - Proper heading syntax
+    "MD018": true,
+
+    // MD019: Multiple spaces after hash on atx style heading
+    // ENABLED - Single space only
+    "MD019": true,
+
+    // MD020: No space inside hashes on closed atx style heading
+    // ENABLED - If using closed ATX (we don't), enforce proper spacing
+    "MD020": true,
+
+    // MD021: Multiple spaces inside hashes on closed atx style heading
+    // ENABLED - Single space only
+    "MD021": true,
+
+    // MD026: Trailing punctuation in heading
+    // RELAXED - Allow question marks (common in FAQ-style docs)
+    "MD026": {
+      "punctuation": ".,;:!"
+    },
+
+    // MD044: Proper names should have correct capitalization
+    // DISABLED - Too project-specific
+    // No justification without knowing specific proper nouns
+    "MD044": false
+  },
+
+  // ---------------------------------------------------------------------------
+  // CLI2 CONFIGURATION
+  // ---------------------------------------------------------------------------
+
+  // Files to lint
+  "globs": [
+    "**/*.md"
+  ],
+
+  // Files to ignore
+  "ignores": [
+    "node_modules/**",
+    "**/node_modules/**",
+    ".git/**",
+    "vendor/**",
+    "dist/**",
+    "build/**",
+    "coverage/**"
+  ],
+
+  // Enable auto-fix for supported rules
+  "fix": true,
+
+  // Show files being processed (set true for debugging)
+  "showFound": false,
+
+  // Disable inline HTML comments for config overrides (security/consistency)
+  "noInlineConfig": false
+}
