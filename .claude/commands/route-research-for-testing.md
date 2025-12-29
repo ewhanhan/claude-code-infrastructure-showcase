@@ -9,10 +9,10 @@ model: sonnet
 
 Changed route files this session (auto-generated):
 
-!cat "$CLAUDE_PROJECT_DIR/.claude/tsc-cache"/\*/edited-files.log \
- | awk -F: '{print $2}' \
- | grep '/routes/' \
- | sort -u
+!cat "$CLAUDE_PROJECT_DIR/.claude/tsc-cache"/\*/edited-files.log\
+| awk -F: '{print $2}'\
+| grep '/routes/'\
+| sort -u
 
 User-specified additional routes: `$ARGUMENTS`
 
@@ -28,10 +28,10 @@ Follow the numbered steps **exactly**:
 
 ```json
 {
-    "tool": "Task",
-    "parameters": {
-        "description": "route smoke tests",
-        "prompt": "Run the auth-route-tester sub-agent on the JSON above."
-    }
+  "tool": "Task",
+  "parameters": {
+    "description": "route smoke tests",
+    "prompt": "Run the auth-route-tester sub-agent on the JSON above."
+  }
 }
 ```

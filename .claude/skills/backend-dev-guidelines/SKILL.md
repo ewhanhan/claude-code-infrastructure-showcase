@@ -12,6 +12,7 @@ Establish consistency and best practices across backend microservices (blog-api,
 ## When to Use This Skill
 
 Automatically activates when working on:
+
 - Creating or modifying routes, endpoints, APIs
 - Building controllers, services, repositories
 - Implementing middleware (auth, validation, error handling)
@@ -92,6 +93,7 @@ service/src/
 ```
 
 **Naming Conventions:**
+
 - Controllers: `PascalCase` - `UserController.ts`
 - Services: `camelCase` - `userService.ts`
 - Routes: `camelCase + Routes` - `userRoutes.ts`
@@ -105,26 +107,26 @@ service/src/
 
 ```typescript
 // ❌ NEVER: Business logic in routes
-router.post('/submit', async (req, res) => {
-    // 200 lines of logic
+router.post("/submit", async (req, res) => {
+  // 200 lines of logic
 });
 
 // ✅ ALWAYS: Delegate to controller
-router.post('/submit', (req, res) => controller.submit(req, res));
+router.post("/submit", (req, res) => controller.submit(req, res));
 ```
 
 ### 2. All Controllers Extend BaseController
 
 ```typescript
 export class UserController extends BaseController {
-    async getUser(req: Request, res: Response): Promise<void> {
-        try {
-            const user = await this.userService.findById(req.params.id);
-            this.handleSuccess(res, user);
-        } catch (error) {
-            this.handleError(error, res, 'getUser');
-        }
+  async getUser(req: Request, res: Response): Promise<void> {
+    try {
+      const user = await this.userService.findById(req.params.id);
+      this.handleSuccess(res, user);
+    } catch (error) {
+      this.handleError(error, res, "getUser");
     }
+  }
 }
 ```
 
@@ -132,10 +134,10 @@ export class UserController extends BaseController {
 
 ```typescript
 try {
-    await operation();
+  await operation();
 } catch (error) {
-    Sentry.captureException(error);
-    throw error;
+  Sentry.captureException(error);
+  throw error;
 }
 ```
 
@@ -146,7 +148,7 @@ try {
 const timeout = process.env.TIMEOUT_MS;
 
 // ✅ ALWAYS
-import { config } from './config/unifiedConfig';
+import { config } from "./config/unifiedConfig";
 const timeout = config.timeouts.default;
 ```
 
@@ -167,10 +169,10 @@ const users = await userRepository.findActive();
 ### 7. Comprehensive Testing Required
 
 ```typescript
-describe('UserService', () => {
-    it('should create user', async () => {
-        expect(user).toBeDefined();
-    });
+describe("UserService", () => {
+  it("should create user", async () => {
+    expect(user).toBeDefined();
+  });
 });
 ```
 
@@ -180,24 +182,24 @@ describe('UserService', () => {
 
 ```typescript
 // Express
-import express, { Request, Response, NextFunction, Router } from 'express';
+import express, { NextFunction, Request, Response, Router } from "express";
 
 // Validation
-import { z } from 'zod';
+import { z } from "zod";
 
 // Database
-import { PrismaClient } from '@prisma/client';
-import type { Prisma } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 
 // Sentry
-import * as Sentry from '@sentry/node';
+import * as Sentry from "@sentry/node";
 
 // Config
-import { config } from './config/unifiedConfig';
+import { config } from "./config/unifiedConfig";
 
 // Middleware
-import { SSOMiddlewareClient } from './middleware/SSOMiddleware';
-import { asyncErrorWrapper } from './middleware/errorBoundary';
+import { asyncErrorWrapper } from "./middleware/errorBoundary";
+import { SSOMiddlewareClient } from "./middleware/SSOMiddleware";
 ```
 
 ---
@@ -206,15 +208,15 @@ import { asyncErrorWrapper } from './middleware/errorBoundary';
 
 ### HTTP Status Codes
 
-| Code | Use Case |
-|------|----------|
-| 200 | Success |
-| 201 | Created |
-| 400 | Bad Request |
-| 401 | Unauthorized |
-| 403 | Forbidden |
-| 404 | Not Found |
-| 500 | Server Error |
+| Code | Use Case     |
+| ---- | ------------ |
+| 200  | Success      |
+| 201  | Created      |
+| 400  | Bad Request  |
+| 401  | Unauthorized |
+| 403  | Forbidden    |
+| 404  | Not Found    |
+| 500  | Server Error |
 
 ### Service Templates
 
@@ -236,55 +238,66 @@ import { asyncErrorWrapper } from './middleware/errorBoundary';
 
 ## Navigation Guide
 
-| Need to... | Read this |
-|------------|-----------|
-| Understand architecture | [architecture-overview.md](architecture-overview.md) |
-| Create routes/controllers | [routing-and-controllers.md](routing-and-controllers.md) |
-| Organize business logic | [services-and-repositories.md](services-and-repositories.md) |
-| Validate input | [validation-patterns.md](validation-patterns.md) |
-| Add error tracking | [sentry-and-monitoring.md](sentry-and-monitoring.md) |
-| Create middleware | [middleware-guide.md](middleware-guide.md) |
-| Database access | [database-patterns.md](database-patterns.md) |
-| Manage config | [configuration.md](configuration.md) |
-| Handle async/errors | [async-and-errors.md](async-and-errors.md) |
-| Write tests | [testing-guide.md](testing-guide.md) |
-| See examples | [complete-examples.md](complete-examples.md) |
+| Need to...                | Read this                                                    |
+| ------------------------- | ------------------------------------------------------------ |
+| Understand architecture   | [architecture-overview.md](architecture-overview.md)         |
+| Create routes/controllers | [routing-and-controllers.md](routing-and-controllers.md)     |
+| Organize business logic   | [services-and-repositories.md](services-and-repositories.md) |
+| Validate input            | [validation-patterns.md](validation-patterns.md)             |
+| Add error tracking        | [sentry-and-monitoring.md](sentry-and-monitoring.md)         |
+| Create middleware         | [middleware-guide.md](middleware-guide.md)                   |
+| Database access           | [database-patterns.md](database-patterns.md)                 |
+| Manage config             | [configuration.md](configuration.md)                         |
+| Handle async/errors       | [async-and-errors.md](async-and-errors.md)                   |
+| Write tests               | [testing-guide.md](testing-guide.md)                         |
+| See examples              | [complete-examples.md](complete-examples.md)                 |
 
 ---
 
 ## Resource Files
 
 ### [architecture-overview.md](architecture-overview.md)
+
 Layered architecture, request lifecycle, separation of concerns
 
 ### [routing-and-controllers.md](routing-and-controllers.md)
+
 Route definitions, BaseController, error handling, examples
 
 ### [services-and-repositories.md](services-and-repositories.md)
+
 Service patterns, DI, repository pattern, caching
 
 ### [validation-patterns.md](validation-patterns.md)
+
 Zod schemas, validation, DTO pattern
 
 ### [sentry-and-monitoring.md](sentry-and-monitoring.md)
+
 Sentry init, error capture, performance monitoring
 
 ### [middleware-guide.md](middleware-guide.md)
+
 Auth, audit, error boundaries, AsyncLocalStorage
 
 ### [database-patterns.md](database-patterns.md)
+
 PrismaService, repositories, transactions, optimization
 
 ### [configuration.md](configuration.md)
+
 UnifiedConfig, environment configs, secrets
 
 ### [async-and-errors.md](async-and-errors.md)
+
 Async patterns, custom errors, asyncErrorWrapper
 
 ### [testing-guide.md](testing-guide.md)
+
 Unit/integration tests, mocking, coverage
 
 ### [complete-examples.md](complete-examples.md)
+
 Full examples, refactoring guide
 
 ---
